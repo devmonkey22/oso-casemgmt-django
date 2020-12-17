@@ -1,0 +1,65 @@
+[
+{
+  "model": "casemgmt.documenttemplate",
+  "pk": 1,
+  "fields": {
+    "name": "Case Application",
+    "case_type": 1,
+    "filename": "wkcmp/application.json"
+  }
+},
+{
+  "model": "casemgmt.documenttemplate",
+  "pk": 2,
+  "fields": {
+    "name": "Eligibility",
+    "case_type": 1,
+    "filename": "wkcmp/eligibility.json"
+  }
+},
+{
+  "model": "casemgmt.documenttemplate",
+  "pk": 3,
+  "fields": {
+    "name": "Services",
+    "case_type": 1,
+    "filename": "wkcmp/services.json"
+  }
+},
+{
+  "model": "casemgmt.documenttemplate",
+  "pk": 4,
+  "fields": {
+    "name": "Application",
+    "case_type": 3,
+    "filename": "med/application.json"
+  }
+},
+{
+  "model": "casemgmt.documenttemplate",
+  "pk": 5,
+  "fields": {
+    "name": "Application",
+    "case_type": 2,
+    "filename": "unemp/application.json"
+  }
+},
+{
+  "model": "casemgmt.documenttemplate",
+  "pk": 6,
+  "fields": {
+    "name": "Closure",
+    "case_type": 3,
+    "filename": "med/closure.json"
+  }
+},
+{
+  "model": "casemgmt.documenttemplate",
+  "pk": 7,
+  "fields": {
+    "name": "Closure",
+    "case_type": 2,
+    "filename": "unemp/closure.json"
+  }
+}
+]

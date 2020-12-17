@@ -1,0 +1,7 @@
+oso~=0.9
+django-oso~=0.4
+Django~=3.0
+
+djangorestframework ~= 3.0
+markdown
+django-filter

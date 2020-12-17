@@ -1,0 +1,26 @@
+[
+{
+  "model": "casemgmt.casetype",
+  "pk": 1,
+  "fields": {
+    "code": "wkcmp",
+    "name": "Workers Compensation"
+  }
+},
+{
+  "model": "casemgmt.casetype",
+  "pk": 2,
+  "fields": {
+    "code": "unemp",
+    "name": "Unemployment"
+  }
+},
+{
+  "model": "casemgmt.casetype",
+  "pk": 3,
+  "fields": {
+    "code": "med",
+    "name": "Medical"
+  }
+}
+]

@@ -1,0 +1,26 @@
+[
+{
+  "model": "casemgmt.client",
+  "pk": 1,
+  "fields": {
+    "first_name": "Alice",
+    "last_name": "Smith"
+  }
+},
+{
+  "model": "casemgmt.client",
+  "pk": 2,
+  "fields": {
+    "first_name": "Zane",
+    "last_name": "Zebra"
+  }
+},
+{
+  "model": "casemgmt.client",
+  "pk": 3,
+  "fields": {
+    "first_name": "Greta",
+    "last_name": "Tomlin"
+  }
+}
+]

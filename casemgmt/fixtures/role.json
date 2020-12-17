@@ -1,0 +1,181 @@
+[
+{
+  "model": "casemgmt.role",
+  "fields": {
+    "name": "CaseWorker Role",
+    "permissions": [
+      [
+        "view_caseload",
+        "casemgmt",
+        "caseload"
+      ],
+      [
+        "view_casetype",
+        "casemgmt",
+        "casetype"
+      ],
+      [
+        "change_client",
+        "casemgmt",
+        "client"
+      ],
+      [
+        "view_client",
+        "casemgmt",
+        "client"
+      ],
+      [
+        "add_document",
+        "casemgmt",
+        "document"
+      ],
+      [
+        "change_document",
+        "casemgmt",
+        "document"
+      ],
+      [
+        "delete_document",
+        "casemgmt",
+        "document"
+      ],
+      [
+        "view_document",
+        "casemgmt",
+        "document"
+      ],
+      [
+        "view_documenttemplate",
+        "casemgmt",
+        "documenttemplate"
+      ]
+    ]
+  }
+},
+{
+  "model": "casemgmt.role",
+  "fields": {
+    "name": "Auditor Role",
+    "permissions": [
+      [
+        "view_caseload",
+        "casemgmt",
+        "caseload"
+      ],
+      [
+        "view_casetype",
+        "casemgmt",
+        "casetype"
+      ],
+      [
+        "view_client",
+        "casemgmt",
+        "client"
+      ],
+      [
+        "view_document",
+        "casemgmt",
+        "document"
+      ],
+      [
+        "view_documenttemplate",
+        "casemgmt",
+        "documenttemplate"
+      ]
+    ]
+  }
+},
+{
+  "model": "casemgmt.role",
+  "fields": {
+    "name": "Director Role",
+    "permissions": [
+      [
+        "add_caseload",
+        "casemgmt",
+        "caseload"
+      ],
+      [
+        "change_caseload",
+        "casemgmt",
+        "caseload"
+      ],
+      [
+        "delete_caseload",
+        "casemgmt",
+        "caseload"
+      ],
+      [
+        "view_caseload",
+        "casemgmt",
+        "caseload"
+      ],
+      [
+        "view_casetype",
+        "casemgmt",
+        "casetype"
+      ],
+      [
+        "add_client",
+        "casemgmt",
+        "client"
+      ],
+      [
+        "change_client",
+        "casemgmt",
+        "client"
+      ],
+      [
+        "delete_client",
+        "casemgmt",
+        "client"
+      ],
+      [
+        "view_client",
+        "casemgmt",
+        "client"
+      ],
+      [
+        "add_document",
+        "casemgmt",
+        "document"
+      ],
+      [
+        "change_document",
+        "casemgmt",
+        "document"
+      ],
+      [
+        "delete_document",
+        "casemgmt",
+        "document"
+      ],
+      [
+        "view_document",
+        "casemgmt",
+        "document"
+      ],
+      [
+        "add_documenttemplate",
+        "casemgmt",
+        "documenttemplate"
+      ],
+      [
+        "change_documenttemplate",
+        "casemgmt",
+        "documenttemplate"
+      ],
+      [
+        "delete_documenttemplate",
+        "casemgmt",
+        "documenttemplate"
+      ],
+      [
+        "view_documenttemplate",
+        "casemgmt",
+        "documenttemplate"
+      ]
+    ]
+  }
+}
+]

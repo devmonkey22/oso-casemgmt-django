@@ -1,0 +1,112 @@
+[
+{
+  "model": "casemgmt.user",
+  "fields": {
+    "password": "pbkdf2_sha256$216000$7z95e8TXE21y$HmrlLfs2uLts9AMTOtEYq2yd7kWTuOoJOmahsf7lL6M=",
+    "last_login": "2020-12-17T16:16:28.667Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2020-12-16T18:14:22.966Z",
+    "email": "admin@example.com",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "casemgmt.user",
+  "fields": {
+    "password": "pbkdf2_sha256$216000$O93oR4nN6WO7$HqQ+rZ1SOSlvMvqljbKY0hSrG620dQAvP8AR7F/Ii68=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "ralph-unemp",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2020-12-16T19:27:25Z",
+    "email": "ralph@example.com",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "casemgmt.user",
+  "fields": {
+    "password": "pbkdf2_sha256$216000$jdkPMgbhYHgZ$zhbpE4sJCqUBKmS2pZ+soxfXSOvegMHWCQcLxEZUCXI=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "billy-med",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2020-12-16T19:27:39Z",
+    "email": "billy@example.com",
+    "groups": [
+      [
+        "Region 1 Case Worker Team"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "casemgmt.user",
+  "fields": {
+    "password": "pbkdf2_sha256$216000$FMfunuAX7PdN$JjRdx+XjtGrsZuj+tieqSLESC+7DyG1497Cmyb0VzPw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "tom-auditor",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2020-12-16T19:28:03Z",
+    "email": "tom@example.com",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "casemgmt.user",
+  "fields": {
+    "password": "pbkdf2_sha256$216000$dkpRDwBTIjHv$p+zi6vBqTVddQAVuRwqbxu/HVl2WtnYlM2v4Zk5Z9FQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "alan-wkcmp",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2020-12-16T19:28:32Z",
+    "email": "alan@example.com",
+    "groups": [
+      [
+        "Region 1 Case Worker Team"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "casemgmt.user",
+  "fields": {
+    "password": "pbkdf2_sha256$216000$a5y4rxU0yxVE$feHI0QHnRFRQz/d0YjlO34CqZvcjVqAMxQbatac1h78=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "director",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2020-12-16T19:47:39Z",
+    "email": "director@example.com",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]
