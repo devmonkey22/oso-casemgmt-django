@@ -15,7 +15,7 @@ The app has the following models:
 - `User`
   - System users as Case Workers, Supervisors, Auditors, etc.
 - `Role`
-  - Job role that has associated permissions. Modeled using ``auth.Group`` model, but separated to prevent assigning
+  - Job role that has associated permissions. Modeled after ``auth.Group`` model, but separated to prevent assigning
     users directly to the role (group) globally.  Users can be assigned to this role through scoped models like ``CaseloadRole``.
   - Pre-defined roles include:
     - `Auditor Role` - Has `view` (read-only) access to various models.
@@ -40,7 +40,14 @@ The app has the following models:
 
 ## Running the App
 
-To run the application, complete the following steps:
+To configure and run the application using the Makefile, just run:
+
+```
+$ make run
+```
+
+
+To **manually** set up and run the application, complete the following steps:
 
 1. Set up a virtual environment and install required packages
 
@@ -86,6 +93,11 @@ To run the application, complete the following steps:
     POSTing, etc. The Admin dashboard is needed to add more data right now.
 
 
+If you want to start from a fresh environment/data, run:
+
+```
+$ make clean run
+```
 
 
 ## Primary Permission Sources
@@ -144,3 +156,27 @@ password: theboss123
 ```
 
 where `admin` is the django superuser.
+
+
+## Querying Policies
+
+To query the Case Management policies from the command-line, we can use the `oso_shell` management command to start an [Oso REPL](https://docs.osohq.com/more/dev-tools/repl.html).
+
+   ```
+   $ ./venv/bin/python manage.py oso_shell
+   ```
+
+## Reviewing API Requests
+
+To help to see how the API requests are performed, the [django-debug-toolbar](https://github.com/jazzband/django-debug-toolbar)
+library is installed and configured to introspect/debug the API requests, including to see the underlying SQL queries submitted
+with authorization checks.  This helps show `django-oso`'s partial evaluation support with Django QuerySets.
+
+
+## Known Issues
+
+Where to begin... this is still a work-in-progress and very non-functional while developing the policies.
+
+1. As non-admin user, there are several errors in the Partial evaluation of `Client` and `Document` models.  Other APIs may return no data but should have data. See notes in `casemgmt/policy/models.polar` regarding `DocumentTemplate` as a start.
+
+2. Most APIs do not accept POSTing data successfully. The serializers are incomplete except for reading so far due to nested relations, etc.

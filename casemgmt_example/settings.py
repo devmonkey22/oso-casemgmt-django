@@ -109,18 +109,6 @@ LOGIN_REDIRECT_URL = "index"
 LOGIN_URL = "login"
 LOGOUT_REDIRECT_URL = "index"
 
-
-
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated'
-    ]
-}
-
-FILTERS_DEFAULT_LOOKUP_EXPR = 'iexact'
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -139,3 +127,25 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = "/static/"
+
+
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ]
+}
+
+FILTERS_DEFAULT_LOOKUP_EXPR = 'iexact'
+
+
+## Uncomment to use Django Debug Toolbar
+## - Only available on REST API pages
+if DEBUG:
+   INSTALLED_APPS += ['debug_toolbar',]
+   MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+   DEBUG_TOOLBAR_CONFIG = {
+       'SHOW_TOOLBAR_CALLBACK': lambda req: req.path.startswith('/__debug__') or (req.path.startswith('/api/') and (not req.is_ajax() or '/api/' in req.headers.get('Referer', ''))),
+   }

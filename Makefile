@@ -11,8 +11,11 @@ venv:
 	bash ./casemgmt/fixtures/load.sh
 
 
-run:
+run: venv
 	./venv/bin/python manage.py runserver 0.0.0.0:10000
+
+debug: venv
+	POLAR_LOG=1 ./venv/bin/python manage.py runserver 0.0.0.0:10000
 
 
 clean:
