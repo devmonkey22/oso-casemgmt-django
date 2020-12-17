@@ -1,0 +1,194 @@
+[
+{
+  "model": "casemgmt.caseloadrole",
+  "pk": 1,
+  "fields": {
+    "caseload": 1,
+    "role": [
+      "Auditor Role"
+    ],
+    "users": [
+      [
+        "tom-auditor"
+      ]
+    ],
+    "groups": []
+  }
+},
+{
+  "model": "casemgmt.caseloadrole",
+  "pk": 2,
+  "fields": {
+    "caseload": 1,
+    "role": [
+      "CaseWorker Role"
+    ],
+    "users": [
+      [
+        "alan-wkcmp"
+      ]
+    ],
+    "groups": []
+  }
+},
+{
+  "model": "casemgmt.caseloadrole",
+  "pk": 3,
+  "fields": {
+    "caseload": 1,
+    "role": [
+      "Director Role"
+    ],
+    "users": [
+      [
+        "director"
+      ]
+    ],
+    "groups": []
+  }
+},
+{
+  "model": "casemgmt.caseloadrole",
+  "pk": 4,
+  "fields": {
+    "caseload": 2,
+    "role": [
+      "Auditor Role"
+    ],
+    "users": [
+      [
+        "tom-auditor"
+      ]
+    ],
+    "groups": []
+  }
+},
+{
+  "model": "casemgmt.caseloadrole",
+  "pk": 5,
+  "fields": {
+    "caseload": 2,
+    "role": [
+      "CaseWorker Role"
+    ],
+    "users": [
+      [
+        "billy-med"
+      ]
+    ],
+    "groups": []
+  }
+},
+{
+  "model": "casemgmt.caseloadrole",
+  "pk": 6,
+  "fields": {
+    "caseload": 2,
+    "role": [
+      "Director Role"
+    ],
+    "users": [
+      [
+        "director"
+      ]
+    ],
+    "groups": []
+  }
+},
+{
+  "model": "casemgmt.caseloadrole",
+  "pk": 7,
+  "fields": {
+    "caseload": 3,
+    "role": [
+      "Auditor Role"
+    ],
+    "users": [
+      [
+        "tom-auditor"
+      ]
+    ],
+    "groups": []
+  }
+},
+{
+  "model": "casemgmt.caseloadrole",
+  "pk": 8,
+  "fields": {
+    "caseload": 3,
+    "role": [
+      "CaseWorker Role"
+    ],
+    "users": [
+      [
+        "ralph-unemp"
+      ]
+    ],
+    "groups": []
+  }
+},
+{
+  "model": "casemgmt.caseloadrole",
+  "pk": 9,
+  "fields": {
+    "caseload": 4,
+    "role": [
+      "Auditor Role"
+    ],
+    "users": [
+      [
+        "tom-auditor"
+      ]
+    ],
+    "groups": []
+  }
+},
+{
+  "model": "casemgmt.caseloadrole",
+  "pk": 10,
+  "fields": {
+    "caseload": 4,
+    "role": [
+      "CaseWorker Role"
+    ],
+    "users": [],
+    "groups": [
+      [
+        "Region 1 Case Worker Team"
+      ]
+    ]
+  }
+},
+{
+  "model": "casemgmt.caseloadrole",
+  "pk": 11,
+  "fields": {
+    "caseload": 4,
+    "role": [
+      "Director Role"
+    ],
+    "users": [
+      [
+        "director"
+      ]
+    ],
+    "groups": []
+  }
+},
+{
+  "model": "casemgmt.caseloadrole",
+  "pk": 12,
+  "fields": {
+    "caseload": 5,
+    "role": [
+      "Auditor Role"
+    ],
+    "users": [
+      [
+        "tom-auditor"
+      ]
+    ],
+    "groups": []
+  }
+}
+]

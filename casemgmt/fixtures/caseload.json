@@ -1,0 +1,79 @@
+[
+{
+  "model": "casemgmt.caseload",
+  "pk": 1,
+  "fields": {
+    "name": "All Workers Comp",
+    "clients": [
+      1,
+      2,
+      3
+    ],
+    "case_types": [
+      1
+    ]
+  }
+},
+{
+  "model": "casemgmt.caseload",
+  "pk": 2,
+  "fields": {
+    "name": "All Medical",
+    "clients": [
+      1,
+      2,
+      3
+    ],
+    "case_types": [
+      3
+    ]
+  }
+},
+{
+  "model": "casemgmt.caseload",
+  "pk": 3,
+  "fields": {
+    "name": "All Unemployment",
+    "clients": [
+      1,
+      2,
+      3
+    ],
+    "case_types": [
+      2
+    ]
+  }
+},
+{
+  "model": "casemgmt.caseload",
+  "pk": 4,
+  "fields": {
+    "name": "Cross-division: WorkersComp+Medical",
+    "clients": [
+      1,
+      2,
+      3
+    ],
+    "case_types": [
+      1,
+      3
+    ]
+  }
+},
+{
+  "model": "casemgmt.caseload",
+  "pk": 5,
+  "fields": {
+    "name": "Some Clients, All Case Types",
+    "clients": [
+      1,
+      2
+    ],
+    "case_types": [
+      1,
+      2,
+      3
+    ]
+  }
+}
+]

@@ -1,0 +1,74 @@
+[
+{
+  "model": "casemgmt.document",
+  "pk": 1,
+  "fields": {
+    "name": "Case app",
+    "client": 1,
+    "template": 1,
+    "content": "Alice is applying for workers comp.",
+    "created_at": "2020-12-16T19:18:30.946Z",
+    "updated_at": "2020-12-16T19:18:30.947Z"
+  }
+},
+{
+  "model": "casemgmt.document",
+  "pk": 2,
+  "fields": {
+    "name": "Case app",
+    "client": 2,
+    "template": 1,
+    "content": "Zane is applying for workers comp",
+    "created_at": "2020-12-16T19:18:51.926Z",
+    "updated_at": "2020-12-16T19:18:51.926Z"
+  }
+},
+{
+  "model": "casemgmt.document",
+  "pk": 3,
+  "fields": {
+    "name": "Eligible",
+    "client": 1,
+    "template": 2,
+    "content": "Alice meets the criteria for services",
+    "created_at": "2020-12-16T19:19:16.670Z",
+    "updated_at": "2020-12-16T19:19:16.670Z"
+  }
+},
+{
+  "model": "casemgmt.document",
+  "pk": 4,
+  "fields": {
+    "name": "Traumatic Brain Injury",
+    "client": 3,
+    "template": 4,
+    "content": "Greta has TBI and needs insurance",
+    "created_at": "2020-12-16T19:19:58.646Z",
+    "updated_at": "2020-12-16T19:19:58.646Z"
+  }
+},
+{
+  "model": "casemgmt.document",
+  "pk": 5,
+  "fields": {
+    "name": "App for unemployment",
+    "client": 3,
+    "template": 5,
+    "content": "Greta has TBI and lost her job.",
+    "created_at": "2020-12-16T19:20:36.769Z",
+    "updated_at": "2020-12-16T19:20:36.769Z"
+  }
+},
+{
+  "model": "casemgmt.document",
+  "pk": 6,
+  "fields": {
+    "name": "Equipment",
+    "client": 1,
+    "template": 3,
+    "content": "Alice needs equipment for home to adapt",
+    "created_at": "2020-12-16T19:21:10.548Z",
+    "updated_at": "2020-12-16T19:21:10.548Z"
+  }
+}
+]

@@ -1,0 +1,9 @@
+[
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "Region 1 Case Worker Team",
+    "permissions": []
+  }
+}
+]
