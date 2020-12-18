@@ -60,6 +60,12 @@ class CaseloadRoleSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CaseloadSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Caseload
+        fields = ['url', 'name']
+
+
+class CaseloadDetailsSerializer(serializers.HyperlinkedModelSerializer):
     clients = ClientSerializer(many=True)
     case_types = CaseTypeSerializer(many=True)
     caseload_roles = CaseloadRoleSerializer(many=True)
@@ -67,4 +73,5 @@ class CaseloadSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Caseload
         fields = ['url', 'name', 'clients', 'case_types', 'caseload_roles']
+
 

@@ -2,7 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 
 from casemgmt.api.serializers import (
-    ClientSerializer, DocumentSerializer, DocumentTemplateSerializer, CaseloadSerializer,
+    ClientSerializer, DocumentSerializer, DocumentTemplateSerializer, CaseloadSerializer, CaseloadDetailsSerializer,
 )
 from casemgmt.models import (
     Client, DocumentTemplate, Document, Caseload,
@@ -33,8 +33,29 @@ class DocumentViewSet(viewsets.ModelViewSet):
 
 
 class CaseloadViewSet(viewsets.ModelViewSet):
-    queryset = Caseload.objects.all()
-    serializer_class = CaseloadSerializer
+    # For list, just return high-level information
+    # For details serializer, pull related tables (might be a bad idea performance-wise in large system still)
+    list_queryset = Caseload.objects.all()
+    queryset = Caseload.objects.all().prefetch_related('clients',
+                                                       'case_types',
+                                                       'caseload_roles',
+                                                       'caseload_roles__role',
+                                                       'caseload_roles__users',
+                                                       'caseload_roles__groups')
+    list_serializer_class = CaseloadSerializer
+    serializer_class = CaseloadDetailsSerializer
+
     filter_backends = (AuthorizeFilter, DjangoFilterBackend)
     filterset_fields = ['name']
 
+    def get_queryset(self):
+        if self.action == "list":
+            return self.list_queryset
+        else:
+            return self.queryset
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return self.list_serializer_class
+        else:
+            return self.serializer_class
