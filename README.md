@@ -126,7 +126,7 @@ There are several models that drive the authorization policies in this example.
 ## Secondary Models
 
 1. `Document`
-	- Document does not have permissions required of its own. It derives it's permissions from its related Client and CaseType. For example, the user must have the `casemgmt.view_document` permission through their caseload role of a caseload in which the client and document's `CaseType` are linked (Caseload Scope) or globally (not common in a case management system).
+	- Document does not have permissions required of its own. It derives it's permissions from its related `Client` and `CaseType`. For example, the user must have the `casemgmt.view_document` permission through their caseload role of a caseload in which the client and document's `CaseType` are linked (Caseload Scope) or globally (not common in a case management system).
 
 
 

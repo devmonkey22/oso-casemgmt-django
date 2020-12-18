@@ -118,7 +118,7 @@ class Migration(migrations.Migration):
             name='CaseloadRole',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('caseload', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='caseloads', to='casemgmt.caseload')),
+                ('caseload', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='caseload_roles', to='casemgmt.caseload')),
                 ('groups', models.ManyToManyField(blank=True, related_name='caseload_roles', to='auth.Group')),
                 ('role', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='caseload_roles', to='casemgmt.role')),
                 ('users', models.ManyToManyField(blank=True, related_name='caseload_roles', to=settings.AUTH_USER_MODEL)),
