@@ -1,7 +1,5 @@
-from django.db import models
-
 from django.contrib.auth.models import AbstractUser, Group, Permission, GroupManager
-
+from django.db import models
 from django_oso.models import AuthorizedModel
 
 
@@ -114,12 +112,7 @@ class Caseload(AuthorizedModel):
 
 class CaseloadRole(AuthorizedModel):
     """
-    A caseload role is a set of users and groups assigned that are granted the permissions linked to the role (Group).
-
-    The `CaseloadRole` model is structured as a 2nd layer to `Caseload` in order to support future design needs
-    where custom permissions or data can be linked to this specific Caseload's Role.  If we used traditional
-    many-to-many models directly off `Caseload` with custom `through` models like `CaseloadUsers(caseload, user, role)`
-    and `CaseloadGroups(caseload, group, role)`, we'd be limited on our ability to define additional data per caseload role.
+    A caseload role is a role assignment from a user/group to a caseload.
     """
     caseload = models.ForeignKey(Caseload, related_name="caseload_roles", on_delete=models.CASCADE)
 
@@ -129,12 +122,10 @@ class CaseloadRole(AuthorizedModel):
     role = models.ForeignKey(Role, related_name="caseload_roles", on_delete=models.CASCADE)
 
     # many-to-many relationship with users
-    users = models.ManyToManyField(User, blank=True, related_name="caseload_roles")
+    user = models.ForeignKey(User, blank=True, null=True, related_name="caseload_roles", on_delete=models.CASCADE)
 
     # many-to-many relationship with groups (groups can be teams of CaseWorkers, rather than explicit `Team` model)
-    groups = models.ManyToManyField(Group, blank=True, related_name="caseload_roles")
+    group = models.ForeignKey(Group, blank=True, null=True, related_name="caseload_roles", on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.role.name} on {self.caseload}"
-
-

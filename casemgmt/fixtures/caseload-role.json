@@ -7,12 +7,7 @@
     "role": [
       "Auditor Role"
     ],
-    "users": [
-      [
-        "tom-auditor"
-      ]
-    ],
-    "groups": []
+    "user": ["tom-auditor"]
   }
 },
 {
@@ -23,12 +18,7 @@
     "role": [
       "CaseWorker Role"
     ],
-    "users": [
-      [
-        "alan-wkcmp"
-      ]
-    ],
-    "groups": []
+    "user": ["alan-wkcmp"]
   }
 },
 {
@@ -39,12 +29,7 @@
     "role": [
       "Director Role"
     ],
-    "users": [
-      [
-        "director"
-      ]
-    ],
-    "groups": []
+    "user": ["director"]
   }
 },
 {
@@ -55,12 +40,7 @@
     "role": [
       "Auditor Role"
     ],
-    "users": [
-      [
-        "tom-auditor"
-      ]
-    ],
-    "groups": []
+    "user": ["tom-auditor"]
   }
 },
 {
@@ -71,12 +51,7 @@
     "role": [
       "CaseWorker Role"
     ],
-    "users": [
-      [
-        "billy-med"
-      ]
-    ],
-    "groups": []
+    "user": ["billy-med"]
   }
 },
 {
@@ -87,12 +62,7 @@
     "role": [
       "Director Role"
     ],
-    "users": [
-      [
-        "director"
-      ]
-    ],
-    "groups": []
+    "user": ["director"]
   }
 },
 {
@@ -103,12 +73,7 @@
     "role": [
       "Auditor Role"
     ],
-    "users": [
-      [
-        "tom-auditor"
-      ]
-    ],
-    "groups": []
+    "user": ["tom-auditor"]
   }
 },
 {
@@ -119,12 +84,7 @@
     "role": [
       "CaseWorker Role"
     ],
-    "users": [
-      [
-        "ralph-unemp"
-      ]
-    ],
-    "groups": []
+    "user": ["ralph-unemp"]
   }
 },
 {
@@ -135,12 +95,7 @@
     "role": [
       "Auditor Role"
     ],
-    "users": [
-      [
-        "tom-auditor"
-      ]
-    ],
-    "groups": []
+    "user": ["tom-auditor"]
   }
 },
 {
@@ -151,12 +106,7 @@
     "role": [
       "CaseWorker Role"
     ],
-    "users": [],
-    "groups": [
-      [
-        "Region 1 Case Worker Team"
-      ]
-    ]
+    "group": ["Region 1 Case Worker Team"]
   }
 },
 {
@@ -167,12 +117,7 @@
     "role": [
       "Director Role"
     ],
-    "users": [
-      [
-        "director"
-      ]
-    ],
-    "groups": []
+    "user": ["director"]
   }
 },
 {
@@ -183,12 +128,7 @@
     "role": [
       "Auditor Role"
     ],
-    "users": [
-      [
-        "tom-auditor"
-      ]
-    ],
-    "groups": []
+    "user": ["tom-auditor"]
   }
 }
 ]
