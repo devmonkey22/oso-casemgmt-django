@@ -21,6 +21,8 @@ allow(user: casemgmt::User, action, case_type: casemgmt::CaseType) if
     # to avoid using querysets
     caseload = case_type.caseloads and
     caseload matches casemgmt::Caseload and
+    # TODO: Ideally this would call `allow` again, but currently the lack of
+    # types for rule selection means this would recurse infinitely
     rbac_allow(user, action, caseload);
 
 
