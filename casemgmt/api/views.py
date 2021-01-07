@@ -19,14 +19,16 @@ class ClientViewSet(viewsets.ModelViewSet):
 
 
 class DocumentTemplateViewSet(viewsets.ModelViewSet):
-    queryset = DocumentTemplate.objects.all()
+    queryset = DocumentTemplate.objects.all().select_related('case_type')
     serializer_class = DocumentTemplateSerializer
     filter_backends = (AuthorizeFilter, DjangoFilterBackend)
     filterset_fields = ['name']
 
 
 class DocumentViewSet(viewsets.ModelViewSet):
-    queryset = Document.objects.all()
+    queryset = Document.objects.all().select_related('client',
+                                                     'template',
+                                                     'template__case_type')
     serializer_class = DocumentSerializer
     filter_backends = (AuthorizeFilter, DjangoFilterBackend)
     filterset_fields = ['name']
