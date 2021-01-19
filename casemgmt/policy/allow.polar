@@ -46,13 +46,18 @@ allow(user: casemgmt::User, action, template: casemgmt::DocumentTemplate) if
 
 allow(user: casemgmt::User, action, document: casemgmt::Document) if
     # TODO: This _should_ be `in` instead, but `in` isn't working correctly
-    case_type_caseload = document.template.case_type.caseloads and
-    case_type_caseload matches casemgmt::Caseload and
-    rbac_allow(user, action, case_type_caseload);
+    case_type = document.template.case_type and
+    case_type matches casemgmt::CaseType and
+
+    client = document.client and
+    client matches casemgmt::Client and
+
+    ct_caseload = case_type.caseloads and
+    client_caseload = client.caseloads and
 
     # TODO: Need to make sure case_type and client's caseload are the same (not just unrelated ones)
-    # But the unify returns "Not supported: cannot unify partials" error.
-    #client_caseload = document.client.caseloads and
-    #client_caseload matches casemgmt::Caseload and
-    #case_type_caseload.id = client_caseload.id and
-    #rbac_allow(user, action, client_caseload);
+    # The unify returns "Not supported: cannot unify partials" error.
+    ct_caseload.id = client_caseload.id and
+
+    #rbac_allow(user, action, ct_caseload) and
+    rbac_allow(user, action, client_caseload);
