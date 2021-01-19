@@ -9,3 +9,5 @@ python manage.py loaddata casemgmt/fixtures/template.json
 python manage.py loaddata casemgmt/fixtures/document.json
 python manage.py loaddata casemgmt/fixtures/caseload.json
 python manage.py loaddata casemgmt/fixtures/caseload-role.json
+
+python manage.py loaddata casemgmt/fixtures/wkcmp-eligibility.json

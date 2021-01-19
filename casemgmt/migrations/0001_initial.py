@@ -94,6 +94,7 @@ class Migration(migrations.Migration):
             name='DocumentTemplate',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('code', models.CharField(max_length=10)),
                 ('name', models.CharField(max_length=256)),
                 ('filename', models.CharField(max_length=1024)),
                 ('case_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='document_templates', to='casemgmt.casetype')),
@@ -136,5 +137,9 @@ class Migration(migrations.Migration):
             model_name='caseload',
             name='clients',
             field=models.ManyToManyField(related_name='caseloads', to='casemgmt.Client'),
+        ),
+        migrations.AddConstraint(
+            model_name='documenttemplate',
+            constraint=models.UniqueConstraint(fields=('code', 'case_type'), name='code_case_type'),
         ),
     ]

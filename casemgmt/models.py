@@ -63,9 +63,15 @@ class DocumentTemplate(AuthorizedModel):
     """
     Document Template used for Documents (of a specific CaseType)
     """
+    code = models.CharField(max_length=10)
     name = models.CharField(max_length=256)
     case_type = models.ForeignKey(CaseType, related_name="document_templates", on_delete=models.CASCADE)
     filename = models.CharField(max_length=1024)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["code", "case_type"], name="code_case_type")
+        ]
 
     def __str__(self):
         return f"{self.name} ({self.case_type.code})"
@@ -129,3 +135,22 @@ class CaseloadRole(AuthorizedModel):
 
     def __str__(self):
         return f"{self.role.name} on {self.caseload}"
+
+
+
+## Case-specific Data Models related to Documents ##
+
+class WkcmpEligibilityData(AuthorizedModel):
+    """
+    Data specific to Eligibility Form (Document) records.
+    Provides example of authorizing access based on related model (Document) and all its policies, plus any specific
+    policies for ourselves too.
+    """
+
+    document = models.ForeignKey(Document, related_name="wkcmp_eligibility", on_delete=models.CASCADE)
+
+    current_monthly_income = models.DecimalField(max_digits=8, decimal_places=2)
+    employer = models.CharField(max_length=100)
+
+    num_dependents = models.PositiveSmallIntegerField()
+

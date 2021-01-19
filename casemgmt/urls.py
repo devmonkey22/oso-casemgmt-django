@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from rest_framework import routers
 
+from .api.wkcmp.views import WkcmpEligibilityViewSet
 from .api.views import ClientViewSet, DocumentViewSet, DocumentTemplateViewSet, CaseloadViewSet
 
 
@@ -13,6 +14,12 @@ router.register(r'clients', ClientViewSet)
 router.register(r'templates', DocumentTemplateViewSet)
 router.register(r'documents', DocumentViewSet)
 router.register(r'caseloads', CaseloadViewSet)
+
+# Document related sub-views
+# TODO: For extended/complex uses, consider `drf-nested-routers` package.
+# For example: http://dev.local:10000/api/documents/3/casedata/wkcmp/eligibility/
+router.register(r'documents/(?P<document_pk>[^/.]+)/casedata/wkcmp/eligibility', WkcmpEligibilityViewSet)
+
 
 def index(request):
     return redirect("api-root")

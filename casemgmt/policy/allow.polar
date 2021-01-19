@@ -45,19 +45,14 @@ allow(user: casemgmt::User, action, template: casemgmt::DocumentTemplate) if
     rbac_allow(user, action, caseload);
 
 allow(user: casemgmt::User, action, document: casemgmt::Document) if
-    # TODO: This _should_ be `in` instead, but `in` isn't working correctly
-    case_type = document.template.case_type and
-    case_type matches casemgmt::CaseType and
+    caseload in document.template.case_type.caseloads and
+    caseload in document.client.caseloads and
+    caseload matches casemgmt::Caseload and
+    rbac_allow(user, action, caseload);
 
-    client = document.client and
-    client matches casemgmt::Client and
 
-    ct_caseload = case_type.caseloads and
-    client_caseload = client.caseloads and
-
-    # TODO: Need to make sure case_type and client's caseload are the same (not just unrelated ones)
-    # The unify returns "Not supported: cannot unify partials" error.
-    ct_caseload.id = client_caseload.id and
-
-    #rbac_allow(user, action, ct_caseload) and
-    rbac_allow(user, action, client_caseload);
+# Allow access if user has same action rights on related document
+allow(user: casemgmt::User, action, elig_data: casemgmt::WkcmpEligibilityData) if
+    true;
+    # TODO: Can't recursively call allow() with diff type yet
+    #allow(user, action, elig_data.document);

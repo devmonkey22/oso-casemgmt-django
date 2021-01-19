@@ -1,0 +1,22 @@
+[
+{
+  "model": "casemgmt.wkcmpeligibilitydata",
+  "pk": 1,
+  "fields": {
+    "current_monthly_income": "1000.00",
+    "employer": "ACME",
+    "num_dependents": 2,
+    "document": 3
+  }
+},
+{
+  "model": "casemgmt.wkcmpeligibilitydata",
+  "pk": 2,
+  "fields": {
+    "current_monthly_income": "500.00",
+    "employer": "Example Employer",
+    "num_dependents": 0,
+    "document": 3
+  }
+}
+]

@@ -3,6 +3,7 @@
   "model": "casemgmt.documenttemplate",
   "pk": 1,
   "fields": {
+    "code": "app",
     "name": "Case Application",
     "case_type": 1,
     "filename": "wkcmp/application.json"
@@ -12,6 +13,7 @@
   "model": "casemgmt.documenttemplate",
   "pk": 2,
   "fields": {
+    "code": "elig",
     "name": "Eligibility",
     "case_type": 1,
     "filename": "wkcmp/eligibility.json"
@@ -21,6 +23,7 @@
   "model": "casemgmt.documenttemplate",
   "pk": 3,
   "fields": {
+    "code": "svcs",
     "name": "Services",
     "case_type": 1,
     "filename": "wkcmp/services.json"
@@ -30,6 +33,7 @@
   "model": "casemgmt.documenttemplate",
   "pk": 4,
   "fields": {
+    "code": "app",
     "name": "Application",
     "case_type": 3,
     "filename": "med/application.json"
@@ -39,6 +43,7 @@
   "model": "casemgmt.documenttemplate",
   "pk": 5,
   "fields": {
+    "code": "app",
     "name": "Application",
     "case_type": 2,
     "filename": "unemp/application.json"
@@ -48,6 +53,7 @@
   "model": "casemgmt.documenttemplate",
   "pk": 6,
   "fields": {
+    "code": "closure",
     "name": "Closure",
     "case_type": 3,
     "filename": "med/closure.json"
@@ -57,6 +63,7 @@
   "model": "casemgmt.documenttemplate",
   "pk": 7,
   "fields": {
+    "code": "closure",
     "name": "Closure",
     "case_type": 2,
     "filename": "unemp/closure.json"

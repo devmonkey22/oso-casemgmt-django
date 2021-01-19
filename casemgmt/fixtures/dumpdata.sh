@@ -10,3 +10,5 @@ python manage.py dumpdata --natural-foreign --natural-primary --indent 2 casemgm
 python manage.py dumpdata --natural-foreign --natural-primary --indent 2 casemgmt.Caseload -o casemgmt/fixtures/caseload.json
 python manage.py dumpdata --natural-foreign --natural-primary --indent 2 casemgmt.CaseloadRole -o casemgmt/fixtures/caseload-role.json
 
+python manage.py dumpdata --natural-foreign --natural-primary --indent 2 casemgmt.WkcmpEligibilityData -o casemgmt/fixtures/wkcmp-eligibility.json
+

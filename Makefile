@@ -19,7 +19,7 @@ debug: venv
 
 
 clean:
-	rm -rf venv/
+	rm -rf venv/ && \
 	rm -f db.sqllite3
 
 

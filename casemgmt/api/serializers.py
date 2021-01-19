@@ -1,7 +1,12 @@
+from typing import List
+
 from django.contrib.auth.models import Group
 from rest_framework import serializers
+from rest_framework.reverse import reverse
 
-from casemgmt.models import Client, DocumentTemplate, Document, CaseType, User, Caseload, CaseloadRole, Role
+from casemgmt.models import (
+    Client, DocumentTemplate, Document, CaseType, User, Caseload, CaseloadRole, Role,
+)
 
 
 class ClientSerializer(serializers.HyperlinkedModelSerializer):
@@ -21,16 +26,32 @@ class DocumentTemplateSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = DocumentTemplate
-        fields = ['url', 'name', 'case_type']
+        fields = ['url', 'code', 'name', 'case_type']
 
 
 class DocumentSerializer(serializers.HyperlinkedModelSerializer):
     client = ClientSerializer()
     template = DocumentTemplateSerializer()
 
+    related_data = serializers.SerializerMethodField()
+
+    def get_related_data(self, obj: Document) -> List[str]:
+        """Get related case data URLs (depends on case type and template)"""
+
+        request = self.context.get("request")
+        urls = []
+
+        # TODO: This should really be dynamic, as case related models grow.
+        case_type: CaseType = obj.template.case_type
+        if case_type.code == "wkcmp":
+            if obj.template.code == "elig":
+                urls.append(reverse('wkcmpeligibilitydata-list', kwargs={"document_pk": obj.id}, request=request))
+
+        return urls
+
     class Meta:
         model = Document
-        fields = ['url', 'name', 'client', 'template', 'created_at', 'updated_at']
+        fields = ['url', 'name', 'client', 'template', 'related_data', 'created_at', 'updated_at']
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -73,5 +94,3 @@ class CaseloadDetailsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Caseload
         fields = ['url', 'name', 'clients', 'case_types', 'caseload_roles']
-
-
