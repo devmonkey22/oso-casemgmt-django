@@ -149,3 +149,18 @@ if DEBUG:
    DEBUG_TOOLBAR_CONFIG = {
        'SHOW_TOOLBAR_CALLBACK': lambda req: req.path.startswith('/__debug__') or (req.path.startswith('/api/') and (not req.is_ajax() or '/api/' in req.headers.get('Referer', ''))),
    }
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG' if DEBUG else 'WARNING',
+    },
+}

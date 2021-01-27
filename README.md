@@ -112,8 +112,9 @@ Or we could use a hybrid approach with permissions driving access to primary mod
 
 1. Global User/Group permissions
 	- For example, if a user is assigned the `casemgmt.view_client` permission globally, they can see any client.
+	- As future work (homework), you could create models to associate users or groups to a role globally, then create a custom Django auth backend that loads those with the user.  That way, roles can play a bigger part of the global permission sources.
 2. `CaseloadRoles`
-	- If a user is assigned to a caseload role, the user will inherit the permissions of that role, for any linked client/casetype.
+	- If a user (or one of their groups) is assigned to a caseload role, the user will inherit the permissions of that role, for any linked client/casetype.
 
 
 There are several models that drive the authorization policies in this example.
@@ -126,8 +127,10 @@ There are several models that drive the authorization policies in this example.
 ## Secondary Models
 
 1. `Document`
-	- Document does not have permissions required of its own. It derives it's permissions from its related `Client` and `CaseType`. For example, the user must have the `casemgmt.view_document` permission through their caseload role of a caseload in which the client and document's `CaseType` are linked (Caseload Scope) or globally (not common in a case management system).
+	- Users are not assigned to documents directly. It derives it's role sources from its related `Client` and `CaseType`, and more accurately, from their mutual caseloads that a user is a member of. For example, the user must have the `casemgmt.view_document` permission through their caseload role of a caseload in which the client and document template's `CaseType` are linked (Caseload Scope) or globally (not common in a case management system).
 
+2. `WkcmpEligibilityData`
+    - This is an example of an extension type model, where we may want policies specific to this model, but in general, want to use the related document (and thus client/casetype/caseloads) to find scoped roles for the user.
 
 
 ## Demo Users
@@ -173,10 +176,17 @@ library is installed and configured to introspect/debug the API requests, includ
 with authorization checks.  This helps show `django-oso`'s partial evaluation support with Django QuerySets.
 
 
-## Known Issues
+## Known Issues/TODO
 
-Where to begin... this is still a work-in-progress and very non-functional while developing the policies.
+Where to begin... this is still a work-in-progress...
 
-1. As non-admin user, there are several errors in the Partial evaluation of `Client` and `Document` models.  Other APIs may return no data but should have data. See notes in `casemgmt/policy/models.polar` regarding `DocumentTemplate` as a start.
+1. Most APIs do not accept POSTing data successfully. The serializers are incomplete except for reading so far due to nested relations, etc.
 
-2. Most APIs do not accept POSTing data successfully. The serializers are incomplete except for reading so far due to nested relations, etc.
+2. Performance of policy evaluation has room for improvement.  For example, requests to `/api/documents` with `alan-wkcmp` user took about 0.461 seconds to evaluate and prepare the QuerySet filter.  The
+underlying SQL query took ~1.25ms.
+
+    1. The SQL generated from the filtered QuerySet is also non-optimal (lots of nested/repetitive EXISTS clauses, but functionally correct, which was the goal of the Oso team to start.
+    
+        For example, the `user_in_role(user: casemgmt::User, role, resource: casemgmt::Caseload)` rule could ideally generate one set of joins to the CaseloadRoles table, then conditionally check user vs group, or something like that.
+     
+    Progress is being made all the time on these fronts.

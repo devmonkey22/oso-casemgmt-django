@@ -1,38 +1,47 @@
-# RBAC BASE POLICY
+### ########################################################
+### RBAC BASE POLICY
+### ########################################################
 
 ## Top-level RBAC allow rule
 
 ### The association between the resource roles and the requested resource is outsourced from the rbac_allow
-rbac_allow(user, action, resource) if
-    # First, check whether user has a direct role
-    # or a role from an associated resource
+rbac_allow(user, perm: PermissionInfo, resource) if
+    # First, check whether user has a direct role or a role from an associated resource
     resource_role_applies_to(resource, role_resource) and
     user_in_role(user, role, role_resource) and
-    role_allow(role, action, resource);
+    role_allow(role, perm, resource);
 
-# RESOURCE-ROLE RELATIONSHIPS
 
-## These rules allow roles to apply to resources other than those that they are scoped to.
-## The most common example of this is nested resources, e.g. Repository roles should apply to the Issues
-## nested in that repository.
 
-### A resource's roles applies to itself
-resource_role_applies_to(role_resource, role_resource);
 
-# ROLE-ROLE RELATIONSHIPS
+### #############################################################################################
+### RESOURCE TO TYPE RELATIONSHIPS
+### #############################################################################################
 
-## Role Hierarchies
+### Each model (resource) that needs to be able to use `action_to_permission()` to convert action to permission
+### must define a `resource_to_class()` rule.  This is needed until there is support for a function like `type(var)`
+### to do this automatically.
 
-### Grant a role permissions that it inherits from a more junior role
-role_allow(role, action, resource) if
-    inherits_role(role, inherited_role) and
-    role_allow(inherited_role, action, resource);
+#resource_to_class(_resource: label::Name, label::Name)
 
-# TODO: Revisit if this works
-# ### Helper to determine relative order or roles in a list
-# inherits_role_helper(role, inherited_role, role_order) if
-#     ([first, *rest] = role_order and
-#     role = first and
-#     inherited_role in rest) or
-#     ([first, *rest] = role_order and
-#     inherits_role_helper(role, inherited_role, rest));
+
+
+### ########################################################
+### ROLE ALLOW CHECKS
+### ########################################################
+
+
+### Direct/indirect `Role` permission check
+### If role has given permission by ID
+role_allow(role, perm: PermissionInfo, _resource) if
+  role_perm in role.permissions and
+  role_perm.id = perm.id;
+
+
+### Direct/indirect `Role` permission assignments
+### If role has given permission name
+role_allow(role, perm: String, _resource) if
+  # Lookup permission info first
+  perm_info = PermissionHelper.get_permission_info(perm) and
+  role_perm in role.permissions and
+  role_perm.id = perm_info.id;

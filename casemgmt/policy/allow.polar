@@ -1,47 +1,49 @@
-# ALLOW RULES --- entrypoint for all authorization decisions
+### ########################################################
+### ALLOW RULES --- entrypoint for all authorization decisions
+### ########################################################
 
-## Defer to models
+### Is user allowed to perform "action" on resource?
+###
+### The ``action`` may be a standard "view", "add", "change", "delete" model permission or a custom
+### action that matches "{app_label}.{action}_{model_name}".
+###
 
-### check for RBAC rule
 allow(actor, action: String, resource) if
-    rbac_allow(actor, action, resource);
+  ### Lookup action -> permission, then check allow
+  action_to_permission(action, resource, perm) and
+  allow(actor, perm, resource);
 
-### check for global rule
-allow(actor, action: String, resource) if
-    global_allow(actor, action, resource);
-
-## Delegate by resource
-
-### Delegate 
-
-allow(user: casemgmt::User, action, client: casemgmt::Client) if
-    # NB: All relations should be expressed over the resource on the RHS
-    # to avoid using querysets
-    caseload in client.caseloads and
-    caseload matches casemgmt::Caseload and
-    allow(user, action, caseload);
+# Each model should define their own allow, and can use `base_allow` and/or any other custom logic.
+# We could use this generic rule to automatically call `base_allow`, then I feel like it's more difficult to totally
+# override all policies on a per-model basis.
+#allow(actor, perm: PermissionInfo, resource) if
+#  base_allow(actor, perm, resource);
 
 
-allow(user: casemgmt::User, action, case_type: casemgmt::CaseType) if
-    # NB: All relations should be expressed over the resource on the RHS
-    # to avoid using querysets
-    caseload in case_type.caseloads and
-    caseload matches casemgmt::Caseload and
-    allow(user, action, caseload);
 
 
-allow(user: casemgmt::User, action, template: casemgmt::DocumentTemplate) if
-    caseload in template.case_type.caseloads and
-    caseload matches casemgmt::Caseload and
-    allow(user, action, caseload);
-
-allow(user: casemgmt::User, action, document: casemgmt::Document) if
-    caseload in document.template.case_type.caseloads and
-    caseload in document.client.caseloads and
-    caseload matches casemgmt::Caseload and
-    allow(user, action, caseload);
 
 
-# Allow access if user has same action rights on related document
-allow(user: casemgmt::User, action, elig_data: casemgmt::WkcmpEligibilityData) if
-    allow(user, action, elig_data.document);
+
+### ########################################################
+### BASE ALLOW POLICIES
+### ########################################################
+
+
+### User has access if allowed to access resource with given permission (using RBAC with potentially resource-scoped (non-global) roles)
+base_allow(actor, perm: PermissionInfo, resource) if
+  rbac_allow(actor, perm, resource);
+
+
+### User has access if has permission through direct (global) permission assignment
+base_allow(actor, perm: PermissionInfo, resource) if
+  global_allow(actor, perm, resource);
+
+
+# Superusers can do anything, regardless of permission/action
+base_allow(actor, _action, _resource) if
+  actor.is_superuser;
+
+
+
+

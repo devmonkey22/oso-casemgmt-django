@@ -1,9 +1,11 @@
-oso~=0.11.0a0
-django-oso~=0.7.0a0
 Django~=2.2
-
 djangorestframework ~= 3.0
 markdown
 django-filter
-
 django-debug-toolbar
+
+oso~=0.11.0a0
+
+# If you are working with the bleeding edge of django-oso, you can link to the dev project on your local system.
+django-oso~=0.7.0a0
+#-e ../../oso/languages/python/django-oso/

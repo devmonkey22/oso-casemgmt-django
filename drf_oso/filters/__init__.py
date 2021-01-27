@@ -1,4 +1,9 @@
+import logging
+import time
+
 from rest_framework.filters import BaseFilterBackend
+
+_logger = logging.getLogger(__name__)
 
 # Translate request method (GET, POST, etc) into Permission "action" name
 REQUEST_METHOD_TO_AUTHORIZE_ACTION = {
@@ -23,7 +28,14 @@ class AuthorizeFilter(BaseFilterBackend):
         # If Queryset derives from AuthorizedQuerySet, etc.
         if hasattr(queryset, 'authorize'):
             action = REQUEST_METHOD_TO_AUTHORIZE_ACTION.get(request.method, 'unknown')
-            return queryset.authorize(request, action=action)
+
+            start = time.perf_counter()
+            try:
+                return queryset.authorize(request, action=action)
+            finally:
+                if _logger.isEnabledFor(logging.DEBUG):
+                    end = time.perf_counter()
+                    _logger.debug(f"AuthorizeFilter for '{request.user}' user to '{action}' {queryset.model} resource took {end - start:0.3f}s")
         else:
             raise TypeError(f"View {view.__class__.__name__} uses to QuerySet {queryset.__class__.__name__} that "
                             f"does not support authorization. Cannot filter.")
