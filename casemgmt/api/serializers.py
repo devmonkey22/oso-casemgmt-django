@@ -1,6 +1,7 @@
 from typing import List
 
 from django.contrib.auth.models import Group
+from django_oso import Oso
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 
@@ -35,6 +36,8 @@ class DocumentSerializer(serializers.HyperlinkedModelSerializer):
 
     related_data = serializers.SerializerMethodField()
 
+    allowed_actions = serializers.SerializerMethodField()
+
     def get_related_data(self, obj: Document) -> List[str]:
         """Get related case data URLs (depends on case type and template)"""
 
@@ -49,9 +52,16 @@ class DocumentSerializer(serializers.HyperlinkedModelSerializer):
 
         return urls
 
+    def get_allowed_actions(self, obj: Document) -> List[str]:
+        request = self.context["request"]
+
+        # TODO: Filter actions to a subset of actions (permission names) like 'casemgmt.*_document' so
+        # we don't output all permissions assigned to role.
+        return Oso.get_allowed_actions(request.user, obj, True)
+
     class Meta:
         model = Document
-        fields = ['url', 'name', 'client', 'template', 'related_data', 'created_at', 'updated_at']
+        fields = ['url', 'name', 'client', 'template', 'related_data', 'allowed_actions', 'created_at', 'updated_at']
 
 
 class UserSerializer(serializers.ModelSerializer):
