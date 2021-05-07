@@ -15,7 +15,18 @@ allow(user: casemgmt::User, perm: PermissionInfo, resource: casemgmt::CaseType) 
     base_allow(user, perm, resource);
 
 
+
+# Allow a user to change a DocumentTemplate as long as they have access to
+# change it for *ALL* documents that link to template.
 allow(user: casemgmt::User, perm: PermissionInfo, resource: casemgmt::DocumentTemplate) if
+    perm.full_name in ["casemgmt.change_documenttemplate"] and
+    forall( doc in resource.documents,
+            doc matches casemgmt::Document and
+            base_allow(user, perm, doc) );
+
+
+allow(user: casemgmt::User, perm: PermissionInfo, resource: casemgmt::DocumentTemplate) if
+    not perm.full_name in ["casemgmt.change_documenttemplate"] and
     base_allow(user, perm, resource);
 
 

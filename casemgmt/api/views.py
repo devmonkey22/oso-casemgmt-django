@@ -1,5 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from casemgmt.api.serializers import (
     ClientSerializer, DocumentSerializer, DocumentTemplateSerializer, CaseloadSerializer, CaseloadDetailsSerializer,
@@ -23,6 +25,22 @@ class DocumentTemplateViewSet(viewsets.ModelViewSet):
     serializer_class = DocumentTemplateSerializer
     filter_backends = (AuthorizeFilter, DjangoFilterBackend)
     filterset_fields = ['name']
+
+    # Contrived example - To easily test policy, using GET method instead of PUT/PATCH method, etc.
+    # Would normally use default actions too.
+    #
+    # To test, try to access http://dev.local:10000/api/templates/1/change_template/
+    @action(detail=True, methods=["get"],
+            # Not using AuthorizeFilter since we can't customize method->action name (yet)
+            filter_backends=[])
+    def change_template(self, request, **kwargs):
+        #template = self.get_object()
+
+        # Try to get the template while checking "change" policy action
+        qs = self.queryset.authorize(request, action="change")
+        template = qs.get(pk=kwargs['pk'])
+
+        return Response(f'Updated {template.name}')
 
 
 class DocumentViewSet(viewsets.ModelViewSet):
