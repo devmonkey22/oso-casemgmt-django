@@ -240,6 +240,28 @@ The performance cliff in my dev environment seemed to be around 3500-4000 record
 from a Hash Join + Index Scan to use a Nested Loop + Materialize.  To play, disabling this join type via `set enable_nestloop=off;` in pgAdmin before running the `COUNT` query changed the runtime from 4 seconds down to ~600 ms.   
 
 
+Due to the high number of joins and join types that the planner allowed, tuning my Postgres DB helped to improve
+performance though.  By changing my `work_mem` from `4MB` to `10MB`, my run times improved to:
+
+Records per document | DB Perf | Request Perf
+-------------------- | ------- | ------------
+5000                 | 6 queries in 117ms | Request took 690ms
+7500                 | 6 queries in 158ms | Request took 789ms  
+10000                | 6 queries in 76932ms (COUNT query took 36 seconds in pgAdmin) | Request took 77505ms
+
+
+With `work_mem` set to `20MB` now:
+
+Records per document | DB Perf | Request Perf
+-------------------- | ------- | ------------
+10000                | 6 queries in 184ms | Request took 818ms
+12500                | 6 queries in 213ms | Request took 800ms
+15000                | 6 queries in 101750ms | Request took 102400ms 
+
+So the heavy joins are obviously very `work_mem` and hash join dependent.
+
+
+
 If you want to clear your DocumentActivityLog:
 
 1. Run `./venv/bin/python3 manage.py shell`
