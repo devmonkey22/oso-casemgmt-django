@@ -176,6 +176,26 @@ library is installed and configured to introspect/debug the API requests, includ
 with authorization checks.  This helps show `django-oso`'s partial evaluation support with Django QuerySets.
 
 
+## Running with Postgres
+
+The default database uses SQLite, but you can configure it to use PostgreSQL (if installed/available).
+
+1. Connect to postgres like `sudo -u postgres psql`
+2. Within the PSQL shell:
+       
+    ```postgresql
+    CREATE USER case_mgmt_app WITH PASSWORD 'case_mgmt';
+    ALTER ROLE case_mgmt_app WITH SUPERUSER;
+    
+    CREATE DATABASE oso_case_mgmt WITH OWNER case_mgmt_app ENCODING 'UTF8' LC_COLLATE 'en_US.UTF-8' LC_CTYPE 'en_US.UTF-8';
+    ```
+    
+    Then press `CTRL+D` to exit the shell.
+
+3. In `casemgmt_example/settings.py`, change the `DATABASES` dictionary to use the the postgres engine settings.
+4. Run `make clean run` 
+
+
 ## Known Issues/TODO
 
 Where to begin... this is still a work-in-progress...
@@ -190,3 +210,44 @@ underlying SQL query took ~1.25ms.
         For example, the `user_in_role(user: casemgmt::User, role, resource: casemgmt::Caseload)` rule could ideally generate one set of joins to the CaseloadRoles table, then conditionally check user vs group, or something like that.
      
     Progress is being made all the time on these fronts.
+
+
+
+### DocumentActivityLog SQL Performance Notes
+
+To check SQL performance of DocumentActivityLog REST APIs, read here.
+
+1. Set up PostgreSQL (see section above)
+2. Run `make clean venv` to set up base database stuff.
+3. Activate venv with `python3 venv/bin/activate`
+4. Run `python3 manage.py generate_data --nbr_logs 5000` to generate a bunch of test data per document
+5. Run `make run` to start the web server.
+6. In your browser, go to http://localhost:10000/api/documents/6/activities/
+7. Log in as `alan_wkcmp` and `caseworker123` (or any other user with a resource-scoped role)
+8. Review SQL etc from Django Debug Toolbar in the sidebar.
+
+In a local dev environment (4 core, 10GB VM), with 5000 logs per document, this REST API call takes ~14 seconds.  The paginated SQL COUNT query around 6 seconds and the 25 record page query around 7 seconds.
+
+Records per document | DB Perf | Request Perf
+-------------------- | ------- | ------------
+2000                 | 6 queries in 76ms | Request took 673ms
+3000                 | 6 queries in 95ms | Request took 704ms
+3500                 | 6 queries in 98ms | Request took 706ms
+4000                 | 6 queries in 9000ms | Request took 9649ms
+
+
+The performance cliff in my dev environment seemed to be around 3500-4000 records, where the execution plan shifted
+from a Hash Join + Index Scan to use a Nested Loop + Materialize.  To play, disabling this join type via `set enable_nestloop=off;` in pgAdmin before running the `COUNT` query changed the runtime from 4 seconds down to ~600 ms.   
+
+
+If you want to clear your DocumentActivityLog:
+
+1. Run `./venv/bin/python3 manage.py shell`
+2. In the shell, run:
+
+    ```python
+    from casemgmt.models import DocumentActivityLog
+    DocumentActivityLog.objects.all().delete()
+    ```
+3. Then regenerate new data if you want.
+

@@ -11,3 +11,6 @@ python manage.py loaddata casemgmt/fixtures/caseload.json
 python manage.py loaddata casemgmt/fixtures/caseload-role.json
 
 python manage.py loaddata casemgmt/fixtures/wkcmp-eligibility.json
+
+
+python manage.py generate_data

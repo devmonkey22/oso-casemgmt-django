@@ -23,6 +23,10 @@ allow(user: casemgmt::User, perm: PermissionInfo, resource: casemgmt::Document) 
     base_allow(user, perm, resource);
 
 
+allow(user: casemgmt::User, perm: PermissionInfo, resource: casemgmt::DocumentActivityLog) if
+    base_allow(user, perm, resource);
+
+
 allow(user: casemgmt::User, perm: PermissionInfo, resource: casemgmt::Caseload) if
     base_allow(user, perm, resource);
 
@@ -43,10 +47,6 @@ allow(user: casemgmt::User, perm: PermissionInfo, resource: casemgmt::WkcmpEligi
 
 
 
-
-
-
-
 ### ####################################################################################################
 ### RELATIONSHIP RULES/HELPERS
 
@@ -59,6 +59,7 @@ allow(user: casemgmt::User, perm: PermissionInfo, resource: casemgmt::WkcmpEligi
 resource_to_class(_resource: casemgmt::Caseload, casemgmt::Caseload);
 resource_to_class(_resource: casemgmt::Client, casemgmt::Client);
 resource_to_class(_resource: casemgmt::Document, casemgmt::Document);
+resource_to_class(_resource: casemgmt::DocumentActivityLog, casemgmt::DocumentActivityLog);
 resource_to_class(_resource: casemgmt::DocumentTemplate, casemgmt::DocumentTemplate);
 resource_to_class(_resource: casemgmt::CaseType, casemgmt::CaseType);
 
@@ -87,6 +88,12 @@ resource_role_applies_to(template: casemgmt::DocumentTemplate, resource) if
 resource_role_applies_to(resource: casemgmt::Document, caseload) if
   caseload in resource.client.caseloads and
   caseload in resource.template.case_type.caseloads;
+
+
+
+# Activity logs are associated to it's document's role relations (ie: should be a caseload)
+resource_role_applies_to(log: casemgmt::DocumentActivityLog, resource) if
+  resource_role_applies_to(log.document, resource);
 
 
 # Eligibility Data is associated to it's document's role relations (ie: should be a caseload)

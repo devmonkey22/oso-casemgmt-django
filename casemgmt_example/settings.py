@@ -82,6 +82,16 @@ DATABASES = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": str(BASE_DIR / "db.sqlite3"),
     }
+    # To use Postgres, flip the DB settings here
+    # "default": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     "NAME": "oso_case_mgmt",
+    #     "USER": "case_mgmt_app",
+    #     "PASSWORD": "case_mgmt",
+    #     "HOST": "127.0.0.1",
+    #     "PORT": "5432",
+    #     "ATOMIC_REQUESTS": True,
+    # }
 }
 
 
@@ -135,7 +145,10 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated'
-    ]
+    ],
+
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 25
 }
 
 FILTERS_DEFAULT_LOOKUP_EXPR = 'iexact'

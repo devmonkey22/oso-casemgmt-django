@@ -4,8 +4,9 @@ from django.contrib.auth.models import Group
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 
+from casemgmt import drf_components
 from casemgmt.models import (
-    Client, DocumentTemplate, Document, CaseType, User, Caseload, CaseloadRole, Role,
+    Client, DocumentTemplate, Document, CaseType, User, Caseload, CaseloadRole, Role, DocumentActivityLog,
 )
 
 
@@ -41,17 +42,37 @@ class DocumentSerializer(serializers.HyperlinkedModelSerializer):
         request = self.context.get("request")
         urls = []
 
+        urls.append({
+            "type": "activity-log",
+            "url": reverse('documentactivitylog-list', kwargs={"document_pk": obj.id}, request=request)
+        })
+
         # TODO: This should really be dynamic, as case related models grow.
         case_type: CaseType = obj.template.case_type
         if case_type.code == "wkcmp":
             if obj.template.code == "elig":
-                urls.append(reverse('wkcmpeligibilitydata-list', kwargs={"document_pk": obj.id}, request=request))
+                urls.append({
+                    "type": "wkcmpeligibilitydata",
+                    "url": reverse('wkcmpeligibilitydata-list', kwargs={"document_pk": obj.id}, request=request)
+                })
 
         return urls
 
     class Meta:
         model = Document
         fields = ['url', 'name', 'client', 'template', 'related_data', 'created_at', 'updated_at']
+
+
+
+class DocumentActivityLogSerializer(serializers.HyperlinkedModelSerializer):
+    url = drf_components.HyperlinkedNestedIdentityField(view_name="documentactivitylog-detail",
+                                         nested_lookup_kwargs={ "document_pk": "document_id"})
+    document = serializers.HyperlinkedRelatedField(view_name="document-detail", read_only=True)
+    actor = serializers.CharField(source="actor.username")
+
+    class Meta:
+        model = DocumentActivityLog
+        fields = ['url', 'document', 'verb', 'description', 'date', 'actor']
 
 
 class UserSerializer(serializers.ModelSerializer):

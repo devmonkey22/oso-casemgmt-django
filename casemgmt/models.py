@@ -97,6 +97,44 @@ class Document(AuthorizedModel):
         return f"{self.name} for {self.client} ({self.template.case_type.code})"
 
 
+
+
+class DocumentActivityLog(AuthorizedModel):
+    """
+    Activity log records for related documents
+    """
+    VERB_VIEWED = 'viewed'
+    VERB_CREATED = 'created'
+    VERB_UPDATED = 'updated'
+    VERB_DELETED = 'deleted'
+    VERB_SHARED = 'shared'
+    VERB_MAILED = 'mailed'
+
+    LOG_VERB_CHOICES = [
+        (VERB_VIEWED, 'Viewed document'),
+        (VERB_CREATED, 'Created document'),
+        (VERB_UPDATED, 'Updated document'),
+        (VERB_DELETED, 'Deleted document'),
+        (VERB_SHARED, 'Shared document'),
+        (VERB_MAILED, 'Mailed document'),
+    ]
+
+    document = models.ForeignKey(Document, related_name="activities", on_delete=models.CASCADE)
+
+    date = models.DateTimeField(auto_now_add=True)
+    actor = models.ForeignKey(User, related_name="document_activities", null=True, on_delete=models.SET_NULL)
+
+    verb = models.CharField(max_length=10, choices=LOG_VERB_CHOICES)
+    description = models.CharField(max_length=255, null=True)
+
+
+    def __str__(self):
+        return f"{self.actor.username} {self.verb} '{self.document}': {self.description}"
+
+    class Meta:
+        ordering = ("date", "id")
+
+
 class Caseload(AuthorizedModel):
     """
     A caseload is a set of clients and set of casetypes.

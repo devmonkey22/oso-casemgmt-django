@@ -1,11 +1,14 @@
+from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 
+from casemgmt.api.filters import DocumentUrlPathFilter
 from casemgmt.api.serializers import (
     ClientSerializer, DocumentSerializer, DocumentTemplateSerializer, CaseloadSerializer, CaseloadDetailsSerializer,
+    DocumentActivityLogSerializer,
 )
 from casemgmt.models import (
-    Client, DocumentTemplate, Document, Caseload,
+    Client, DocumentTemplate, Document, Caseload, DocumentActivityLog,
 )
 
 from drf_oso.filters import AuthorizeFilter
@@ -32,6 +35,37 @@ class DocumentViewSet(viewsets.ModelViewSet):
     serializer_class = DocumentSerializer
     filter_backends = (AuthorizeFilter, DjangoFilterBackend)
     filterset_fields = ['name']
+
+
+
+class DocumentActivityLogViewSet(viewsets.ModelViewSet):
+    """Document Activity Log data"""
+    list_queryset = DocumentActivityLog.objects.all().select_related("actor")
+    queryset = DocumentActivityLog.objects.all().select_related("actor").prefetch_related()
+    list_serializer_class = DocumentActivityLogSerializer
+    serializer_class = DocumentActivityLogSerializer
+
+    filter_backends = (DocumentUrlPathFilter, AuthorizeFilter, DjangoFilterBackend)
+    filterset_fields = ['verb']
+
+    def get_queryset(self):
+        if self.action == "list":
+            return self.list_queryset
+        else:
+            return self.queryset
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return self.list_serializer_class
+        else:
+            return self.serializer_class
+
+    def perform_create(self, serializer):
+        # Pull in document_pk from URL to create (not the only way to make this happen), and check authZ
+        doc = get_object_or_404(Document.objects.authorize(request=self.request), pk=self.kwargs["document_pk"])
+        serializer.validated_data['document'] = doc
+        return super().perform_create(serializer)
+
 
 
 class CaseloadViewSet(viewsets.ModelViewSet):

@@ -19,6 +19,8 @@ debug: venv
 
 
 clean:
+	# Try to remove any old DB data first (ie: postgres)
+	./venv/bin/python manage.py migrate casemgmt zero || true
 	rm -rf venv/ && \
 	rm -f db.sqllite3
 
