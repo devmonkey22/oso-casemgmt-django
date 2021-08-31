@@ -200,7 +200,7 @@ The default database uses SQLite, but you can configure it to use PostgreSQL (if
 
 Where to begin... this is still a work-in-progress...
 
-1. Most APIs do not accept POSTing data successfully. The serializers are incomplete except for reading so far due to nested relations, etc.
+1. Most APIs do not accept POSTing data successfully. The serializers are incomplete except for reading so far due to nested relations, etc.  See Full CRUD Implementation below for thoughts.
 
 2. Performance of policy evaluation has room for improvement.  For example, requests to `/api/documents` with `alan-wkcmp` user took about 0.461 seconds to evaluate and prepare the QuerySet filter.  The
 underlying SQL query took ~1.25ms.
@@ -210,6 +210,19 @@ underlying SQL query took ~1.25ms.
         For example, the `user_in_role(user: casemgmt::User, role, resource: casemgmt::Caseload)` rule could ideally generate one set of joins to the CaseloadRoles table, then conditionally check user vs group, or something like that.
      
     Progress is being made all the time on these fronts.
+
+
+## Full CRUD Implementation
+
+This case management example needs more work in the area of add/change/delete unfortunately, especially add (create/POST).
+In other projects, I used a combination of the `AuthorizeFilter` and a custom DRF Permission class (perhaps call it `AuthorizePermission`?) to handle all the different angles.
+
+I also had to alter my approach to be able to return `403` in some cases and `404` in others (ie: if the user can view a record but not change/delete it, I wanted to return `403` rather than the `404` that this example is set up to do). To do that, the `AuthorizeFilter` always checked `view` permission by default, and the AuthorizePermission then checked the change, delete, etc.
+Creating (`POST`) data is hard because initially there is no object to check like you can for the other actions (`view`, `change`, etc). In my case, I either used the `AuthorizePermission` to call `is_allowed` **AFTER** the object was created in an atomic transaction (in DRF's `has_object_permission`), or I had the `APIView` provide a `get_parent_object` method that would pull out a related parent object from the URL path parameters (or it uses the user model itself), and then `AuthorizePermission` could check if the user had the add permission (using either the child's model name or parent `add_{model}` perm) using that parent object.
+
+In other words, the patterns for authorizing creates is typically either:
+- Create the object then authorize that you can create it. (Maybe create it, authorize it, then save it to the DB.)
+- A `create_foo` action on a parent resource. Like `create_issue` on a `Repository` using Oso's GitClub example.
 
 
 
